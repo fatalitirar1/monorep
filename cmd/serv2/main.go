@@ -1,4 +1,4 @@
-package serv2
+package main
 
 func main() {
 

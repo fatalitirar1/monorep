@@ -1,10 +1,26 @@
 services:
+  serv1:
+    build:
+      context: .
+      dockerfile: ./deployments/serv1.Dockerfile
+      args:
+          - GO_VERSION=1.24
+
+    container_name: serv1
+    depends_on:
+          - redis
+          - rabbitmq
+          - postgres
+    ports:
+          - "8080:8080"
+
   postgres:
     image: postgres:18
     environment:
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
+
 
   redis:
     image: redis/redis-stack-server:latest 
