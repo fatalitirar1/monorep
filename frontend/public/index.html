@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Frontend</title>
+</head>
+<body>
+    <h1>Frontend App</h1>
+
+    <script>
+        // Прямой вызов backend через Nginx
+        fetch('/api/ping')
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text(); // plain text
+            })
+            .then(data => {
+                const p = document.createElement('p');
+                p.textContent = `Backend says: ${data}`;
+                document.body.appendChild(p);
+            })
+            .catch(err => {
+                console.error('Error calling backend:', err);
+                const p = document.createElement('p');
+                p.textContent = 'Cannot reach backend';
+                document.body.appendChild(p);
+            });
+    </script>
+</body>
+</html>
+

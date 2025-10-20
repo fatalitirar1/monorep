@@ -4,7 +4,9 @@ WORKDIR /app
 COPY go.mod go.sum ./ 
 RUN go mod download && go mod tidy
 
-COPY . .
+COPY ../deployments .
+
+COPY . . 
 
 RUN go build -o main ./cmd/serv1/main.go
 

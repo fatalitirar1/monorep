@@ -1,53 +1,69 @@
 services:
-  serv1:
-    build:
-      context: .
-      dockerfile: ./deployments/serv1.Dockerfile
-      args:
-          - GO_VERSION=1.24
-
-    container_name: serv1
-    depends_on:
-          - redis
-          - rabbitmq
-          - postgres
-    ports:
-          - "8080:8080"
-
   postgres:
     image: postgres:18
     environment:
       POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_DB: masterbase
     ports:
-      - "5432:5432"
-
-
-  redis:
-    image: redis/redis-stack-server:latest 
-    ports:
-      - "6379:6379" 
+      - "5433:5432"
     volumes:
-      - redis_data:/data 
-    healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - postgres_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d  
+    networks:
+      - nginx-network
 
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: my_rabbitmq
+  backend:
+    build:
+      context: ./backend
+      dockerfile: ./deployments/serv1/serv1.dockerfile
+      args:
+        - GO_VERSION=1.24
+    container_name: backend_srv
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    networks:
+      - nginx-network
+    volumes:
+      - ./log/backend:/app/logs
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend_srv
+    depends_on: 
+      - backend
+    networks:
+      - nginx-network
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./log/frontend:/app/logs
+  
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx/configs:/etc/nginx/conf.d:ro
+      - ./frontend:/usr/share/nginx/public:ro  
+      - ./log/nginx:/var/log/nginx
     restart: unless-stopped
-    ports:
-      - "5672:5672"   # AMQP
-      - "15672:15672" # UI
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=password
-    volumes:
-      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - nginx-network
+    depends_on:
+      - backend
+      - frontend
+
+networks:
+  nginx-network:
+    driver: bridge
 
 volumes:
-  redis_data:
-  rabbitmq_data:
-
+  postgres_data:
+  
