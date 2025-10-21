@@ -1,6 +1,9 @@
 .idea/
 .vscode/
+<<<<<<< HEAD
 
+=======
+>>>>>>> lilyjul-features/frontend_init
 log/backend/*
 log/frontend/*
 log/nginx/*
