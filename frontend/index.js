@@ -8,7 +8,6 @@ app.use(express.static('public'));
 
 console.log("Frontend server started");
 
-// Ручка, которая дергает backend
 app.get('/ping-backend', async (req, res) => {
     try {
         const response = await axios.get('http://localhost/api/ping');
