@@ -1,12 +1,10 @@
-import type { NextConfig } from 'next'
-
-
-const nextConfig: NextConfig = {
-  transpilePackages: ['antd', '@ant-design', 'rc-util', 'rc-pagination', 'rc-picker'],
-
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  output: 'standalone',
+  experimental: {
+    appDir: true,
   },
-}
+  transpilePackages: ['antd', '@ant-design/icons'],
+};
 
-export default nextConfig
+module.exports = nextConfig;

@@ -8,13 +8,11 @@ import {
   SettingOutlined,
 } from '@ant-design/icons';
 import { useRouter } from 'next/navigation';
-import { useUIStore } from '@/shared/store/ui-store';
 
 const { Sider } = Layout;
 
 export const Sidebar = () => {
   const router = useRouter();
-  const { sidebarCollapsed, theme } = useUIStore();
 
   const menuItems = [
     {
@@ -30,7 +28,7 @@ export const Sidebar = () => {
     {
       key: '/products',
       icon: <ShoppingCartOutlined />,
-      label: 'Товары',
+      label: 'Продукты',
     },
     {
       key: '/settings',
@@ -46,11 +44,9 @@ export const Sidebar = () => {
   return (
     <Sider
       width={250}
-      collapsed={sidebarCollapsed}
-      collapsedWidth={0}
       style={{
-        background: theme === 'dark' ? '#141414' : '#fff',
-        boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
+        background: '#fff',
+        boxShadow: '2px 0 8px 0 rgba(29, 35, 41, 0.05)',
         overflow: 'auto',
         height: '100vh',
         position: 'fixed',
@@ -58,38 +54,19 @@ export const Sidebar = () => {
         top: 0,
         bottom: 0,
       }}
-      breakpoint='lg'
+      breakpoint="lg"
+      collapsedWidth="0"
     >
-      <div
-        style={{
-          padding: '16px',
-          textAlign: 'center',
-          borderBottom:
-            theme === 'dark' ? '1px solid #303030' : '1px solid #f0f0f0',
-        }}
-      >
-        <h2
-          style={{
-            color: theme === 'dark' ? '#fff' : '#1890ff',
-            margin: 0,
-            opacity: sidebarCollapsed ? 0 : 1,
-            transition: 'opacity 0.2s',
-          }}
-        >
-          Логотип
-        </h2>
+      <div style={{ padding: '16px', textAlign: 'center' }}>
+        <h2 style={{ color: '#1890ff', margin: 0 }}>Logo</h2>
       </div>
 
       <Menu
-        mode='inline'
+        mode="inline"
         defaultSelectedKeys={['/']}
         items={menuItems}
         onClick={handleMenuClick}
-        style={{
-          borderRight: 0,
-          background: 'transparent',
-        }}
-        theme={theme}
+        style={{ borderRight: 0 }}
       />
     </Sider>
   );

@@ -1,5 +1,6 @@
 .idea/
 .vscode/
+ilyjul-features/frontend_init
 log/backend/*
 log/frontend/*
 log/nginx/*

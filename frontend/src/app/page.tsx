@@ -4,6 +4,8 @@ import { Layout } from 'antd';
 
 import { Header, Sidebar, Footer, MainContent } from '@/widgets/layout';
 
+
+
 export default function Home() {
   return (
     <Layout style={{ minHeight: '100vh' }}>

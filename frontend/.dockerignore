@@ -1,5 +1,4 @@
 .git
-.gitignore
 README.md
 .env.local
 .env.production
@@ -11,3 +10,4 @@ yarn-error.log*
 dist
 Dockerfile
 .dockerignore
+
