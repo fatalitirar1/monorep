@@ -1,10 +1,13 @@
 'use client';
 
-import { UserOutlined, ShoppingCartOutlined, ArrowUpOutlined } from '@ant-design/icons';
+import {
+  UserOutlined,
+  ShoppingCartOutlined,
+  ArrowUpOutlined,
+} from '@ant-design/icons';
 import { Card, Col, Layout, Row, Statistic } from 'antd';
 
 const { Content: AntContent } = Layout;
-
 
 export const MainContent = () => {
   return (
@@ -12,8 +15,9 @@ export const MainContent = () => {
       style={{
         margin: '24px 16px',
         padding: 24,
-        background: '#fff',
+        background: 'var(--ant-color-bg-container)',
         minHeight: 280,
+        color: 'var(--ant-color-text)',
       }}
     >
       <Row gutter={16} style={{ marginBottom: 24 }}>
@@ -54,9 +58,12 @@ export const MainContent = () => {
         </Col>
       </Row>
 
-      <Card title="Дашборд" variant={'borderless'}>
+      <Card title="Дашборд" variant="borderless">
         <p>Добро пожаловать в дашборд вашего приложения!</p>
-        <p>Это основная область контента, где вы можете отображать информацию вашего приложения.</p>
+        <p>
+          Это основная область контента, где вы можете отображать информацию
+          вашего приложения.
+        </p>
       </Card>
     </AntContent>
   );

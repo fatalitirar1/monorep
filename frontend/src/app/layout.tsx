@@ -1,9 +1,8 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import { AntdProvider } from './providers/antd-provider';
+import ReactQueryProvider from '@/app/providers/react-query-provider';
+import { AntdRegistry } from '@ant-design/nextjs-registry';
+import StoreProvider from './providers/store-provider';
 import './styles/globals.css';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Team 0x01',
@@ -16,9 +15,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
-      <body className={inter.className}>
-        <AntdProvider>{children}</AntdProvider>
+    <html lang='ru'>
+      <body>
+        <ReactQueryProvider>
+          <StoreProvider>
+            <AntdRegistry>{children}</AntdRegistry>
+          </StoreProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
