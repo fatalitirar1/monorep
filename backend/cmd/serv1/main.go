@@ -2,10 +2,10 @@ package main
 
 import (
 	"log/slog"
-	logger "mono/pkg"
+	"mono/pkg/logger"
 )
 
 func main() {
-	logger.Init("debug")
+	logger.Init("degbug")
 	slog.Info("dead")
 }

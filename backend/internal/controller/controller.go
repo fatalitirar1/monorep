@@ -5,11 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"mono/internal/models"
+	service_erros "mono/pkg/errors"
 	"net/http"
 )
-
-var ErrEmailExists = errors.New("email already exists")
-var ErrNotFound = errors.New("Not found")
 
 type UserService interface {
 	CreateUser(ctx context.Context, name, email string) (string, error)
@@ -39,7 +37,7 @@ func (h *UserHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	id, err := h.svc.CreateUser(r.Context(), req.Name, req.Email)
 	if err != nil {
-		if errors.Is(err, ErrEmailExists) {
+		if errors.Is(err, service_erros.ErrEmailExists) {
 			http.Error(w, "email already exists", http.StatusConflict)
 			return
 		}
@@ -61,7 +59,7 @@ func (h *UserHandler) GetUser(w http.ResponseWriter, r *http.Request) {
 	}
 	user, err := h.svc.GetUser(r.Context(), id)
 	if err != nil {
-		if errors.Is(err, ErrNotFound) {
+		if errors.Is(err, service_erros.ErrNotFound) {
 			http.Error(w, "not found", http.StatusNotFound)
 			return
 		}
